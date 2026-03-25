@@ -261,13 +261,6 @@ with intro_col2:
     </div>
     """, unsafe_allow_html=True)
 
-with intro_col3:
-    st.markdown("""
-    <div class="info-card">
-        <div class="section-title">教學提示</div>
-        可先用 x 或 x**2 作示範，再讓學生比較中點法與隨機取點法的差異。
-    </div>
-    """, unsafe_allow_html=True)
 
 # ----------------------
 # 側邊欄
@@ -308,11 +301,6 @@ if st.sidebar.button("重新隨機抽樣", use_container_width=True):
 
 seed = st.session_state.random_seed
 
-st.sidebar.markdown("""
-<div class="small-note">
-建議先以 x**2 比較四種方法，再逐步增加分割數 n 觀察誤差變化。
-</div>
-""", unsafe_allow_html=True)
 
 if a >= b:
     st.error("請設定正確區間：必須滿足 a < b。")
@@ -470,16 +458,16 @@ with tab2:
     )
 
 with tab3:
-    st.markdown("### 學習說明")
+    st.markdown("### 教學說明")
     st.markdown("""
 #### 1. 什麼是黎曼和？
 黎曼和是把曲線下方的面積切成很多小塊，再用長方形去近似面積的方法。
 
 #### 2. 四種常見方法
-- 左端點法：每小區間取左端點高度
-- 右端點法：每小區間取右端點高度
-- 中點法：每小區間取中點高度
-- 隨機取點法：每小區間隨機取一個點，該點的函數值作為長方形高度
+- 左端點法：每小區間取左端點，以該點的函數值作為長方形高度
+- 右端點法：每小區間取右端點，以該點的函數值作為長方形高度
+- 中點法：每小區間取中間點，以該點的函數值作為長方形高度
+- 隨機取點法：每小區間隨機取一個點，以該點的函數值作為長方形高度
 
 #### 3. 如何觀察？
 你可以改變：
@@ -494,11 +482,4 @@ with tab3:
 - 當 n 增加時，誤差如何變化
 - 隨機取點法在不同抽樣下是否會波動
 
-#### 4. 建議學生操作任務
-1. 先輸入 x**2
-2. 比較四種方法在 n=4、n=10、n=30 時的誤差
-3. 選擇隨機取點法，按下重新隨機抽樣
-4. 觀察相同 n 下近似值如何改變
-5. 再改成 np.sin(x) 或 np.exp(-x)
-6. 記錄哪一種方法通常較準確
 """)
