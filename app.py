@@ -243,7 +243,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-intro_col1, intro_col2, intro_col3 = st.columns([1.15, 1.15, 1.2])
+intro_col1, intro_col2 = st.columns([1.5, 1.5])
 
 with intro_col1:
     st.markdown("""
@@ -406,7 +406,6 @@ with tab1:
             hide_index=True
         )
 
-    st.info("觀察重點：當分割數 n 增加時，黎曼和通常會更接近精確積分值，誤差會逐漸變小。隨機取點法則會因抽樣位置不同而改變近似值。")
 
 with tab2:
     st.markdown("### 誤差分析與方法比較")
