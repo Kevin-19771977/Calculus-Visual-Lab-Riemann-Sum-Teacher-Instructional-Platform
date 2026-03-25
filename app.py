@@ -328,7 +328,7 @@ except Exception:
 tab1, tab2, tab3 = st.tabs(["互動圖形", "誤差比較", "教學說明"])
 
 with tab1:
-    st.markdown("### 單一方法圖形")
+    st.markdown("### ")
 
     if view_mode == "單一方法":
         fig, riemann_sum, exact, error = draw_single_method(
