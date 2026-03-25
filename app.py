@@ -283,7 +283,7 @@ selected_example = st.sidebar.selectbox("選擇範例函數", list(example_optio
 if selected_example != "自訂":
     st.session_state.func_str = example_options[selected_example]
 
-func_str = st.sidebar.text_input("輸入函數 f(x)", key="func_str")
+func_str = st.sidebar.text_input("輸入函數", key="func_str")
 
 st.sidebar.markdown("### 圖形顯示設定")
 view_mode = st.sidebar.radio("顯示模式", ["單一方法", "四種方法比較"])
