@@ -285,15 +285,15 @@ if selected_example != "自訂":
 
 func_str = st.sidebar.text_input("輸入函數 f(x)", key="func_str")
 
-st.sidebar.markdown("### 顯示設定")
+st.sidebar.markdown("### 圖形顯示設定")
 view_mode = st.sidebar.radio("顯示模式", ["單一方法", "四種方法比較"])
 method = st.sidebar.selectbox("選擇方法", list(methods_dict.keys()))
 n = st.sidebar.slider("分割數 n", 1, 100, 6)
 
-st.sidebar.markdown("### 區間與圖形")
-a = st.sidebar.number_input("積分下限 a", value=0.0)
-b = st.sidebar.number_input("積分上限 b", value=5.0)
-color_hex = st.sidebar.color_picker("長方形顏色", "#ff6b6b")
+st.sidebar.markdown("### 區間範圍設定")
+a = st.sidebar.number_input("左 a", value=0.0)
+b = st.sidebar.number_input("右 b", value=5.0)
+color_hex = st.sidebar.color_picker("選擇顏色", "#ff6b6b")
 
 st.sidebar.markdown("### 隨機取點")
 if st.sidebar.button("重新隨機抽樣", use_container_width=True):
@@ -325,10 +325,10 @@ except Exception:
 # ----------------------
 # 主區塊
 # ----------------------
-tab1, tab2, tab3 = st.tabs(["互動圖形", "方法比較", "教學說明"])
+tab1, tab2, tab3 = st.tabs(["互動圖形", "誤差比較", "教學說明"])
 
 with tab1:
-    st.markdown("### 圖形與近似結果")
+    st.markdown("### 單一方法圖形")
 
     if view_mode == "單一方法":
         fig, riemann_sum, exact, error = draw_single_method(
@@ -376,10 +376,10 @@ with tab1:
         }
 
         label_map = {
-            "左端點法": "左上：左端點法",
-            "右端點法": "右上：右端點法",
-            "中點法": "左下：中點法",
-            "隨機取點法": "右下：隨機取點法"
+            "左端點法": "左端點法",
+            "右端點法": "右端點法",
+            "中點法": "中點法",
+            "隨機取點法": "隨機取點法"
         }
 
         for m in compare_methods:
@@ -462,23 +462,22 @@ with tab3:
 #### 1. 什麼是黎曼和？
 黎曼和是把曲線下方的面積切成很多小塊，再用長方形去近似面積的方法。
 
-#### 2. 四種常見方法
+#### 2. 四種取點方法
 - 左端點法：每小區間取左端點，以該點的函數值作為長方形高度
 - 右端點法：每小區間取右端點，以該點的函數值作為長方形高度
 - 中點法：每小區間取中間點，以該點的函數值作為長方形高度
 - 隨機取點法：每小區間隨機取一個點，以該點的函數值作為長方形高度
 
 #### 3. 如何觀察？
-你可以改變：
+可以改變：
 - 函數
-- 積分區間
+- 區間範圍
 - 分割數 n
-- 近似方法
+- 四種取點方法
 
 然後比較：
 - 近似值是否接近精確值
 - 哪一種方法誤差較小
 - 當 n 增加時，誤差如何變化
-- 隨機取點法在不同抽樣下是否會波動
 
 """)
