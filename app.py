@@ -353,7 +353,6 @@ with st.sidebar.expander("輸入語法說明"):
                     <code>x^2</code>：x 的平方<br>
                     <code>x^3</code>：x 的立方<br>
                     <code>2x</code>： <code>2*x</code><br>
-                    <code>3(x+1)</code>： <code>3*(x+1)</code><br>
                     <code>(2x+1)(x-3)</code>： <code>(2x+1)*(x-3)</code>
                 </td>
             </tr>
@@ -405,7 +404,6 @@ with st.sidebar.expander("輸入語法說明"):
         <b>注意事項：</b><br>
         1. 對數函數 <code>log(x)</code>、<code>ln(x)</code>、<code>log10(x)</code>、<code>log2(x)</code> 需滿足 <code>x &gt; 0</code>。<br>
         2. 若使用根號，請注意根號內的值要合法，例如 <code>sqrt(x)</code> 需滿足 <code>x &gt;= 0</code>。<br>
-        3. 請使用英文括號 <code>()</code>。
     </div>
     """, unsafe_allow_html=True)
 
