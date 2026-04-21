@@ -124,7 +124,10 @@ def normalize_function_input(func_str: str) -> str:
     s = s.replace("^", "**")
     s = re.sub(r"\s+", "", s)
 
-    func_pattern = r"(?:np\.(?:sin|cos|tan|exp|log|sqrt|abs)|sin|cos|tan|exp|log|sqrt|abs|pi|e)"
+    # 將常見對數寫法統一成可解析形式
+    s = re.sub(r"\bln\(", "log(", s)
+
+    func_pattern = r"(?:np\.(?:sin|cos|tan|exp|log|log10|log2|sqrt|abs)|sin|cos|tan|exp|log|ln|log10|log2|sqrt|abs|pi|e)"
 
     s = re.sub(rf"(?<=\d)(?=(?:x|\(|{func_pattern}))", "*", s)
     s = re.sub(rf"(?<=x)(?=(?:\(|{func_pattern}|\d))", "*", s)
@@ -141,6 +144,9 @@ def parse_function(func_str: str):
         "tan": np.tan,
         "exp": np.exp,
         "log": np.log,
+        "ln": np.log,
+        "log10": np.log10,
+        "log2": np.log2,
         "sqrt": np.sqrt,
         "abs": np.abs,
         "pi": np.pi,
@@ -286,7 +292,7 @@ st.sidebar.markdown("## 操作面板")
 
 st.sidebar.markdown("### 函數設定")
 func_str = st.sidebar.text_input("輸入函數", key="func_str")
-st.sidebar.caption("支援輸入範例：x^2、2x、3(x+1)、2sin(x)、sqrt(x+1)")
+st.sidebar.caption("支援輸入範例：x^2、2x、3(x+1)、2sin(x)、sqrt(x+1)、ln(x)、log10(x)、log2(x)")
 
 st.sidebar.markdown("### 圖形顯示設定")
 view_mode = st.sidebar.radio("顯示模式", ["單一方法", "四種方法比較"])
@@ -322,7 +328,7 @@ try:
         st.stop()
 
 except Exception:
-    st.error("函數輸入錯誤。可輸入例如：x^2、2x、3(x+1)、2sin(x)、sqrt(x+1)、np.sin(x)")
+    st.error("函數輸入錯誤。可輸入例如：x^2、2x、3(x+1)、2sin(x)、sqrt(x+1)、ln(x)、log10(x)、log2(x)")
     st.stop()
 
 # ----------------------
