@@ -350,11 +350,11 @@ with st.sidebar.expander("輸入語法說明"):
             <tr>
                 <td class="syntax-group">基本代數</td>
                 <td>
-                    <code>x^2</code>代表：x 的平方<br>
-                    <code>x^3</code>代表：x 的立方<br>
-                    <code>2x</code>：代表 <code>2*x</code><br>
-                    <code>3(x+1)</code>：代表 <code>3*(x+1)</code><br>
-                    <code>(2x+1)(x-3)</code>：代表 <code>(2x+1)*(x-3)</code>
+                    <code>x^2</code>：x 的平方<br>
+                    <code>x^3</code>：x 的立方<br>
+                    <code>2x</code>： <code>2*x</code><br>
+                    <code>3(x+1)</code>： <code>3*(x+1)</code><br>
+                    <code>(2x+1)(x-3)</code>： <code>(2x+1)*(x-3)</code>
                 </td>
             </tr>
             <tr>
@@ -363,25 +363,21 @@ with st.sidebar.expander("輸入語法說明"):
                     <code>sin(x)</code><br>
                     <code>cos(x)</code><br>
                     <code>tan(x)</code><br>
-                    <code>2sin(x)</code>代表 <code>2*sin(x)</code><br>
-                    <code>xcos(x)</code>代表 <code>x*cos(x)</code>
                 </td>
             </tr>
             <tr>
                 <td class="syntax-group">指數與根號</td>
                 <td>
-                    <code>e^x</code>代表 e 的 x 次方<br>
-                    <code>sqrt(x)</code>代表 x 的平方根<br>
-                    <code>2sqrt(x+1)</code>代表 <code>2*sqrt(x+1)</code>
+                    <code>e^x</code>： e 的 x 次方<br>
+                    <code>sqrt(x)</code>： x 的平方根<br>
                 </td>
             </tr>
             <tr>
                 <td class="syntax-group">對數函數</td>
                 <td>
-                    <code>ln(x)</code>代表以 e 為底的自然對數<br>
-                    <code>log10(x)</code>代表以 10 為底的常用對數<br>
-                    <code>log2(x)</code>代表以 2 為底的對數<br>
-                    <code>2log10(x)</code>代表 <code>2*log10(x)</code>
+                    <code>ln(x)</code>：以 e 為底的自然對數<br>
+                    <code>log10(x)</code>：以 10 為底的常用對數<br>
+                    <code>log2(x)</code>：以 2 為底的對數<br>
                 </td>
             </tr>
             <tr>
