@@ -284,6 +284,7 @@ if selected_example != "自訂":
     st.session_state.func_str = example_options[selected_example]
 
 func_str = st.sidebar.text_input("輸入函數", key="func_str")
+st.sidebar.caption("支援輸入範例：x^2、2x、3(x+1)、2sin(x)、sqrt(x+1)")
 
 st.sidebar.markdown("### 圖形顯示設定")
 view_mode = st.sidebar.radio("顯示模式", ["單一方法", "四種方法比較"])
