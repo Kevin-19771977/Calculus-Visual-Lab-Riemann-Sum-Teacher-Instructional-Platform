@@ -246,7 +246,7 @@ if "random_seed" not in st.session_state:
     st.session_state.random_seed = int(np.random.randint(0, 10**9))
 
 if "func_str" not in st.session_state:
-    st.session_state.func_str = "x**2"
+    st.session_state.func_str = "x^2-3x+5"
 
 # ----------------------
 # 頁首區
@@ -285,21 +285,6 @@ with intro_col2:
 st.sidebar.markdown("## 操作面板")
 
 st.sidebar.markdown("### 函數設定")
-example_options = {
-    "自訂": None,
-    "x": "x",
-    "x**2": "x**2",
-    "np.sin(x)": "np.sin(x)",
-    "np.cos(x)": "np.cos(x)",
-    "np.exp(-x)": "np.exp(-x)",
-    "sqrt(x+1)": "sqrt(x+1)"
-}
-
-selected_example = st.sidebar.selectbox("選擇範例函數", list(example_options.keys()))
-
-if selected_example != "自訂":
-    st.session_state.func_str = example_options[selected_example]
-
 func_str = st.sidebar.text_input("輸入函數", key="func_str")
 st.sidebar.caption("支援輸入範例：x^2、2x、3(x+1)、2sin(x)、sqrt(x+1)")
 
