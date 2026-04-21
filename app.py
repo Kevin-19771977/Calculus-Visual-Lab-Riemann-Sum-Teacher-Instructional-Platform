@@ -1,3 +1,4 @@
+import re
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
@@ -118,6 +119,20 @@ method_display_map = {
 # ----------------------
 # 安全函數解析
 # ----------------------
+def normalize_function_input(func_str: str) -> str:
+    s = func_str.strip()
+    s = s.replace("^", "**")
+    s = re.sub(r"\s+", "", s)
+
+    func_pattern = r"(?:np\.(?:sin|cos|tan|exp|log|sqrt|abs)|sin|cos|tan|exp|log|sqrt|abs|pi|e)"
+
+    s = re.sub(rf"(?<=\d)(?=(?:x|\(|{func_pattern}))", "*", s)
+    s = re.sub(rf"(?<=x)(?=(?:\(|{func_pattern}|\d))", "*", s)
+    s = re.sub(rf"(?<=\))(?=(?:x|\(|{func_pattern}|\d))", "*", s)
+
+    return s
+
+
 def parse_function(func_str: str):
     allowed_names = {
         "np": np,
@@ -132,8 +147,10 @@ def parse_function(func_str: str):
         "e": np.e
     }
 
+    normalized_func_str = normalize_function_input(func_str)
+
     def f(x):
-        return eval(func_str, {"__builtins__": {}}, {"x": x, **allowed_names})
+        return eval(normalized_func_str, {"__builtins__": {}}, {"x": x, **allowed_names})
 
     return f
 
@@ -320,7 +337,7 @@ try:
         st.stop()
 
 except Exception:
-    st.error("函數輸入錯誤。可輸入例如：x**2、np.sin(x)、sqrt(x+1)、exp(-x)")
+    st.error("函數輸入錯誤。可輸入例如：x^2、2x、3(x+1)、2sin(x)、sqrt(x+1)、np.sin(x)")
     st.stop()
 
 # ----------------------
