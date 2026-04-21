@@ -124,17 +124,29 @@ def normalize_function_input(func_str: str) -> str:
     s = s.replace("^", "**")
     s = re.sub(r"\s+", "", s)
 
-    # 將常見對數寫法統一成可解析形式
-    s = re.sub(r"\bln\(", "log(", s)
+    # 先將容易和隱含乘號規則衝突的函數名稱暫時替換成純字母代號
+    # 這樣可避免 log10(x) 被錯誤改成 log10*(x)
+    s = re.sub(r"np\.log10(?=\()", "__NPLOGTEN__", s)
+    s = re.sub(r"np\.log2(?=\()", "__NPLOGTWO__", s)
+    s = re.sub(r"log10(?=\()", "__LOGTEN__", s)
+    s = re.sub(r"log2(?=\()", "__LOGTWO__", s)
+    s = re.sub(r"ln(?=\()", "__LOG__", s)
 
-    func_pattern = r"(?:np\.(?:sin|cos|tan|exp|log|log10|log2|sqrt|abs)|sin|cos|tan|exp|log|ln|log10|log2|sqrt|abs|pi|e)"
+    func_pattern = r"(?:__NPLOGTEN__|__NPLOGTWO__|__LOGTEN__|__LOGTWO__|__LOG__|np\.(?:sin|cos|tan|exp|log|sqrt|abs)|sin|cos|tan|exp|log|sqrt|abs|pi|e)"
 
+    # 自動補上省略的乘號
     s = re.sub(rf"(?<=\d)(?=(?:x|\(|{func_pattern}))", "*", s)
     s = re.sub(rf"(?<=x)(?=(?:\(|{func_pattern}|\d))", "*", s)
     s = re.sub(rf"(?<=\))(?=(?:x|\(|{func_pattern}|\d))", "*", s)
 
-    return s
+    # 還原函數名稱
+    s = s.replace("__NPLOGTEN__", "np.log10")
+    s = s.replace("__NPLOGTWO__", "np.log2")
+    s = s.replace("__LOGTEN__", "log10")
+    s = s.replace("__LOGTWO__", "log2")
+    s = s.replace("__LOG__", "log")
 
+    return s
 
 def parse_function(func_str: str):
     allowed_names = {
