@@ -350,9 +350,8 @@ with st.sidebar.expander("輸入語法說明"):
             <tr>
                 <td class="syntax-group">基本代數</td>
                 <td>
-                    <code>x</code>：一次函數<br>
-                    <code>x^2</code> 或 <code>x**2</code>：平方<br>
-                    <code>x^3</code>：立方<br>
+                    <code>x^2</code>代表：x 的平方<br>
+                    <code>x^3</code>代表：x 的立方<br>
                     <code>2x</code>：代表 <code>2*x</code><br>
                     <code>3(x+1)</code>：代表 <code>3*(x+1)</code><br>
                     <code>(x+1)(x-1)</code>：代表 <code>(x+1)*(x-1)</code>
@@ -371,18 +370,16 @@ with st.sidebar.expander("輸入語法說明"):
             <tr>
                 <td class="syntax-group">指數與根號</td>
                 <td>
-                    <code>exp(x)</code>：代表 e 的 x 次方<br>
-                    <code>sqrt(x)</code>：平方根<br>
-                    <code>sqrt(x+1)</code><br>
+                    <code>e^x</code>：代表 e 的 x 次方<br>
+                    <code>sqrt(x)</code>：x 的平方根<br>
                     <code>2sqrt(x+1)</code>：代表 <code>2*sqrt(x+1)</code>
                 </td>
             </tr>
             <tr>
                 <td class="syntax-group">對數函數</td>
                 <td>
-                    <code>log(x)</code>：自然對數<br>
                     <code>ln(x)</code>：自然對數<br>
-                    <code>log10(x)</code>：常用對數<br>
+                    <code>log10(x)</code>：以 10 為底的常用對數<br>
                     <code>log2(x)</code>：以 2 為底的對數<br>
                     <code>2log10(x)</code>：代表 <code>2*log10(x)</code>
                 </td>
