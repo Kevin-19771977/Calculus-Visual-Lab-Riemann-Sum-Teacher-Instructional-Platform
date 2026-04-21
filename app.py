@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 from scipy.integrate import quad
+import pandas as pd
 import streamlit as st
 
 # ----------------------
@@ -297,196 +298,6 @@ with intro_col2:
     """, unsafe_allow_html=True)
 
 
-st.markdown("### 輸入語法說明")
-with st.expander("📖 輸入語法說明（點開放大閱讀）", expanded=True):
-    st.markdown("""
-    <style>
-    .syntax-panel {
-        background: linear-gradient(180deg, #fbfdff 0%, #f8fafc 100%);
-        border: 1px solid #dbe7ff;
-        border-radius: 16px;
-        overflow: hidden;
-        margin-top: 0.25rem;
-        box-shadow: 0 4px 14px rgba(30, 64, 175, 0.06);
-    }
-    .syntax-panel-header {
-        background: linear-gradient(135deg, #eaf2ff 0%, #f3f7ff 100%);
-        border-bottom: 1px solid #dbe7ff;
-        padding: 14px 16px;
-    }
-    .syntax-panel-title {
-        font-size: 1.08rem;
-        font-weight: 800;
-        color: #1e3a8a;
-        margin-bottom: 4px;
-        line-height: 1.4;
-    }
-    .syntax-panel-subtitle {
-        font-size: 0.95rem;
-        color: #475569;
-        line-height: 1.7;
-    }
-    .syntax-inner {
-        padding: 14px 16px 16px 16px;
-    }
-    .syntax-table-wrap {
-        overflow-x: auto;
-        margin-top: 0.35rem;
-    }
-    .syntax-table {
-        width: 100%;
-        min-width: 520px;
-        border-collapse: separate;
-        border-spacing: 0;
-        font-size: 0.99rem;
-        border: 1px solid #dbe4f0;
-        border-radius: 12px;
-        overflow: hidden;
-        background: white;
-        line-height: 1.72;
-    }
-    .syntax-table th,
-    .syntax-table td {
-        padding: 12px 12px;
-        vertical-align: top;
-        border-bottom: 1px solid #e5e7eb;
-    }
-    .syntax-table tr:last-child td {
-        border-bottom: none;
-    }
-    .syntax-table th {
-        background: #eff6ff;
-        color: #1e3a8a;
-        font-weight: 800;
-        text-align: left;
-        font-size: 0.98rem;
-    }
-    .syntax-group {
-        background: #f8fafc;
-        color: #334155;
-        font-weight: 800;
-        white-space: nowrap;
-        width: 31%;
-        min-width: 120px;
-        border-right: 1px solid #e5e7eb;
-    }
-    .syntax-note-box {
-        margin-top: 1rem;
-        background: #fffdf5;
-        border: 1px solid #fde68a;
-        border-radius: 12px;
-        padding: 12px 12px;
-        font-size: 0.95rem;
-        color: #4b5563;
-        line-height: 1.72;
-    }
-    .syntax-note-title {
-        font-size: 0.98rem;
-        font-weight: 800;
-        color: #92400e;
-        margin-bottom: 4px;
-    }
-    .syntax-code {
-        background: #f8fafc;
-        border: 1px solid #e5e7eb;
-        border-radius: 7px;
-        padding: 2px 6px;
-        font-size: 0.95rem;
-        white-space: nowrap;
-    }
-    </style>
-
-    <div class="syntax-panel">
-        <div class="syntax-panel-header">
-            <div class="syntax-panel-title">常用輸入語法總覽</div>
-            <div class="syntax-panel-subtitle">
-                這個區塊預設收合，點開後可用較大的字體與表格閱讀。系統也支援部分省略乘號的寫法，例如 <span class="syntax-code">2x</span>、<span class="syntax-code">3(x+1)</span>、<span class="syntax-code">2sin(x)</span>。
-            </div>
-        </div>
-
-        <div class="syntax-inner">
-            <div class="syntax-table-wrap">
-                <table class="syntax-table">
-                    <thead>
-                        <tr>
-                            <th>類別</th>
-                            <th>可輸入語法與說明</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="syntax-group">基本代數</td>
-                            <td>
-                                <span class="syntax-code">x</span>：一次函數<br>
-                                <span class="syntax-code">x^2</span> 或 <span class="syntax-code">x**2</span>：平方<br>
-                                <span class="syntax-code">x^3</span>：立方<br>
-                                <span class="syntax-code">2x</span>：代表 <span class="syntax-code">2*x</span><br>
-                                <span class="syntax-code">3(x+1)</span>：代表 <span class="syntax-code">3*(x+1)</span><br>
-                                <span class="syntax-code">(x+1)(x-1)</span>：代表 <span class="syntax-code">(x+1)*(x-1)</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="syntax-group">三角函數</td>
-                            <td>
-                                <span class="syntax-code">sin(x)</span><br>
-                                <span class="syntax-code">cos(x)</span><br>
-                                <span class="syntax-code">tan(x)</span><br>
-                                <span class="syntax-code">2sin(x)</span>：代表 <span class="syntax-code">2*sin(x)</span><br>
-                                <span class="syntax-code">xcos(x)</span>：代表 <span class="syntax-code">x*cos(x)</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="syntax-group">指數與根號</td>
-                            <td>
-                                <span class="syntax-code">exp(x)</span>：代表 e 的 x 次方<br>
-                                <span class="syntax-code">sqrt(x)</span>：平方根<br>
-                                <span class="syntax-code">sqrt(x+1)</span><br>
-                                <span class="syntax-code">2sqrt(x+1)</span>：代表 <span class="syntax-code">2*sqrt(x+1)</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="syntax-group">對數函數</td>
-                            <td>
-                                <span class="syntax-code">log(x)</span>：自然對數<br>
-                                <span class="syntax-code">ln(x)</span>：自然對數<br>
-                                <span class="syntax-code">log10(x)</span>：常用對數<br>
-                                <span class="syntax-code">log2(x)</span>：以 2 為底的對數<br>
-                                <span class="syntax-code">2log10(x)</span>：代表 <span class="syntax-code">2*log10(x)</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="syntax-group">常數</td>
-                            <td>
-                                <span class="syntax-code">pi</span>：圓周率<br>
-                                <span class="syntax-code">e</span>：自然常數
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="syntax-group">混合範例</td>
-                            <td>
-                                <span class="syntax-code">x^2-3x+5</span><br>
-                                <span class="syntax-code">2x^2+3x-1</span><br>
-                                <span class="syntax-code">sin(x)+x^2</span><br>
-                                <span class="syntax-code">exp(-x)+2sin(x)</span><br>
-                                <span class="syntax-code">log(x)+x^2</span><br>
-                                <span class="syntax-code">sqrt(x+1)+x</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="syntax-note-box">
-                <div class="syntax-note-title">注意事項</div>
-                1. 對數函數 <span class="syntax-code">log(x)</span>、<span class="syntax-code">ln(x)</span>、<span class="syntax-code">log10(x)</span>、<span class="syntax-code">log2(x)</span> 需滿足 <span class="syntax-code">x &gt; 0</span>。<br>
-                2. 若使用根號，請注意根號內的值要合法，例如 <span class="syntax-code">sqrt(x)</span> 需滿足 <span class="syntax-code">x &gt;= 0</span>。<br>
-                3. 請使用英文括號 <span class="syntax-code">()</span>。
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-
 # ----------------------
 # 側邊欄
 # ----------------------
@@ -495,6 +306,54 @@ st.sidebar.markdown("## 操作面板")
 st.sidebar.markdown("### 函數設定")
 func_str = st.sidebar.text_input("輸入函數", key="func_str")
 st.sidebar.caption("支援輸入範例：x^2、2x、3(x+1)、2sin(x)、sqrt(x+1)、ln(x)、log10(x)、log2(x)\n若使用對數函數，請設定區間滿足 x > 0，例如 a = 1、b = 5")
+
+with st.sidebar.expander("📖 輸入語法說明（點開查看）", expanded=False):
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #eaf2ff 0%, #f8fbff 100%);
+        border: 1px solid #dbe7ff;
+        border-radius: 14px;
+        padding: 12px 14px;
+        margin-bottom: 10px;
+    ">
+        <div style="font-size:1.02rem; font-weight:800; color:#1e3a8a; margin-bottom:4px;">
+            常用輸入語法總覽
+        </div>
+        <div style="font-size:0.93rem; color:#475569; line-height:1.65;">
+            下表整理了本系統支援的常見函數寫法。系統也支援部分省略乘號的輸入，例如
+            <code>2x</code>、<code>3(x+1)</code>、<code>2sin(x)</code>。
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    syntax_df = pd.DataFrame([
+        {"類別": "基本代數", "可輸入語法與說明": "x；x^2 或 x**2；x^3；2x = 2*x；3(x+1) = 3*(x+1)；(x+1)(x-1) = (x+1)*(x-1)"},
+        {"類別": "三角函數", "可輸入語法與說明": "sin(x)；cos(x)；tan(x)；2sin(x) = 2*sin(x)；xcos(x) = x*cos(x)"},
+        {"類別": "指數與根號", "可輸入語法與說明": "exp(x)；sqrt(x)；sqrt(x+1)；2sqrt(x+1) = 2*sqrt(x+1)"},
+        {"類別": "對數函數", "可輸入語法與說明": "log(x)；ln(x)；log10(x)；log2(x)；2log10(x) = 2*log10(x)"},
+        {"類別": "常數", "可輸入語法與說明": "pi；e"},
+        {"類別": "混合範例", "可輸入語法與說明": "x^2-3x+5；2x^2+3x-1；sin(x)+x^2；exp(-x)+2sin(x)；log(x)+x^2；sqrt(x+1)+x"},
+    ])
+
+    st.table(syntax_df)
+
+    st.markdown("""
+    <div style="
+        margin-top: 10px;
+        background: #fffdf5;
+        border: 1px solid #fde68a;
+        border-radius: 12px;
+        padding: 12px 12px;
+        font-size: 0.93rem;
+        color: #4b5563;
+        line-height: 1.7;
+    ">
+        <div style="font-weight:800; color:#92400e; margin-bottom:4px;">注意事項</div>
+        1. 對數函數 <code>log(x)</code>、<code>ln(x)</code>、<code>log10(x)</code>、<code>log2(x)</code> 需滿足 <code>x &gt; 0</code>。<br>
+        2. 若使用根號，請注意根號內的值要合法，例如 <code>sqrt(x)</code> 需滿足 <code>x &gt;= 0</code>。<br>
+        3. 請使用英文括號 <code>()</code>。
+    </div>
+    """, unsafe_allow_html=True)
 
 st.sidebar.markdown("### 圖形顯示設定")
 view_mode = st.sidebar.radio("顯示模式", ["單一方法", "四種方法比較"])
