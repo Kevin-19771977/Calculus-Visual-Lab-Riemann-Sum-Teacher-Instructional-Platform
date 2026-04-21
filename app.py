@@ -304,8 +304,6 @@ st.sidebar.markdown("## 操作面板")
 
 st.sidebar.markdown("### 函數設定")
 func_str = st.sidebar.text_input("輸入函數", key="func_str")
-st.sidebar.caption("支援輸入範例：x^2、2x、3(x+1)、2sin(x)、sqrt(x+1)、ln(x)、log10(x)、log2(x)\n若使用對數函數，請設定區間滿足 x > 0，例如 a = 1、b = 5")
-
 with st.sidebar.expander("輸入語法說明"):
     st.markdown("""
     <style>
