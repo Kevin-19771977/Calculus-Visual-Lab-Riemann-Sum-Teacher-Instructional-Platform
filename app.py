@@ -304,7 +304,7 @@ st.sidebar.markdown("## 操作面板")
 
 st.sidebar.markdown("### 函數設定")
 func_str = st.sidebar.text_input("輸入函數", key="func_str")
-st.sidebar.caption("支援輸入範例：x^2、2x、3(x+1)、2sin(x)、sqrt(x+1)、ln(x)、log10(x)、log2(x)")
+st.sidebar.caption("支援輸入範例：x^2、2x、3(x+1)、2sin(x)、sqrt(x+1)、ln(x)、log10(x)、log2(x)\n若使用對數函數，請設定區間滿足 x > 0，例如 a = 1、b = 5")
 
 st.sidebar.markdown("### 圖形顯示設定")
 view_mode = st.sidebar.radio("顯示模式", ["單一方法", "四種方法比較"])
@@ -336,7 +336,7 @@ try:
     test_y = np.asarray(f(test_x), dtype=float)
 
     if not np.all(np.isfinite(test_y)):
-        st.error("函數在此區間內出現無效值，請調整函數或積分區間。")
+        st.error("函數在此區間內出現無效值，請調整函數或積分區間。若使用 ln(x)、log10(x)、log2(x)，請設定區間滿足 x > 0，例如 a = 1、b = 5。")
         st.stop()
 
 except Exception:
