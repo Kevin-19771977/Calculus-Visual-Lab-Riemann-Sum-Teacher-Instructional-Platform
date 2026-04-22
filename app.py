@@ -119,8 +119,29 @@ method_display_map = {
 # ----------------------
 # 安全函數解析
 # ----------------------
+def convert_absolute_bars(expr: str) -> str:
+    """Convert paired |...| into abs(...).
+    Supports common student inputs like |x|, 2|x|, |sin(x)|.
+    Bars are treated in alternating open/close order.
+    """
+    result = []
+    open_bar = True
+    for ch in expr:
+        if ch == '|':
+            if open_bar:
+                result.append('abs(')
+            else:
+                result.append(')')
+            open_bar = not open_bar
+        else:
+            result.append(ch)
+    if not open_bar:
+        raise ValueError('絕對值符號 | | 未成對出現')
+    return ''.join(result)
+
 def normalize_function_input(func_str: str) -> str:
     s = func_str.strip()
+    s = convert_absolute_bars(s)
     s = s.replace("^", "**")
     s = re.sub(r"\s+", "", s)
 
@@ -350,6 +371,7 @@ with st.sidebar.expander("輸入語法說明"):
                 <td>
                     <code>x^2</code>：x 的平方<br>
                     <code>x^3</code>：x 的立方<br>
+                    <code>|x|</code>：x 的絕對值<br>
                     <code>2x</code>： <code>2*x</code><br>
                     <code>(2x+1)(x-3)</code>： <code>(2x+1)*(x-3)</code>
                 </td>
@@ -392,17 +414,12 @@ with st.sidebar.expander("輸入語法說明"):
                     <code>sin(x)+x^2</code><br>
                     <code>e^(-x)+2sin(x)</code><br>
                     <code>log(x)+x^2</code><br>
-                    <code>sqrt(x+1)+x</code>
+                    <code>sqrt(x+1)+x</code><br>
+                    <code>|x-3|+2</code>
                 </td>
             </tr>
         </tbody>
     </table>
-
-    <div class="syntax-note">
-        <b>注意事項：</b><br>
-        1. 對數函數 <code>log(x)</code>、<code>ln(x)</code>、<code>log10(x)</code>、<code>log2(x)</code> 需滿足 <code>x &gt; 0</code>。<br>
-        2. 若使用根號，請注意根號內的值要合法，例如 <code>sqrt(x)</code> 需滿足 <code>x &gt;= 0</code>。<br>
-    </div>
     """, unsafe_allow_html=True)
 
 st.sidebar.markdown("### 圖形顯示設定")
@@ -442,7 +459,7 @@ try:
         st.stop()
 
 except Exception:
-    st.error("函數輸入錯誤。可輸入例如：x^2、2x、3(x+1)、2sin(x)、sqrt(x+1)、ln(x)、log10(x)、log2(x)")
+    st.error("函數輸入錯誤。可輸入例如：x^2、2x、3(x+1)、2sin(x)、|x|、sqrt(x+1)、ln(x)、log10(x)、log2(x)")
     st.stop()
 
 # ----------------------
