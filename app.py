@@ -285,7 +285,7 @@ if "random_seed" not in st.session_state:
     st.session_state.random_seed = int(np.random.randint(0, 10**9))
 
 if "func_str" not in st.session_state:
-    st.session_state.func_str = "x^2-3x+5"
+    st.session_state.func_str = "x^2"
 
 # ----------------------
 # 頁首區
