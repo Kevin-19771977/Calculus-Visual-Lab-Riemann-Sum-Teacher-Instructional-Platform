@@ -298,7 +298,7 @@ if "func_str" not in st.session_state:
 # ----------------------
 st.markdown("""
 <div class="hero-box">
-    <div class="main-title">📘 微積分視覺實驗室：黎曼和教學平台</div>
+    <div class="main-title">📘 微積分視覺實驗室｜黎曼和四種方法互動視覺化學習平台</div>
     <div class="sub-title">
         透過圖形、數值與方法比較，觀察黎曼和如何近似曲線下方面積，建立定積分的直觀理解。
     </div>
