@@ -428,8 +428,11 @@ method = st.sidebar.selectbox("選擇方法", list(methods_dict.keys()))
 n = st.sidebar.slider("分割數 n", 1, 100, 6)
 
 st.sidebar.markdown("### 區間範圍設定")
-a = st.sidebar.number_input("左 a", value=0.0)
-b = st.sidebar.number_input("右 b", value=5.0)
+interval_col1, interval_col2 = st.sidebar.columns(2)
+with interval_col1:
+    a = st.number_input("左 a", value=0.0)
+with interval_col2:
+    b = st.number_input("右 b", value=5.0)
 color_hex = st.sidebar.color_picker("選擇顏色", "#ff6b6b")
 
 st.sidebar.markdown("### 隨機取點")
