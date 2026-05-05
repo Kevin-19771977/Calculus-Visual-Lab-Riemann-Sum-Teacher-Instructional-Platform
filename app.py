@@ -10,7 +10,7 @@ import time
 # 頁面設定
 # ----------------------
 st.set_page_config(
-    page_title="微積分視覺實驗室｜黎曼和教學平台",
+    page_title="微積分視覺實驗室｜黎曼和四種方法互動視覺化學習平台",
     page_icon="📘",
     layout="wide"
 )
