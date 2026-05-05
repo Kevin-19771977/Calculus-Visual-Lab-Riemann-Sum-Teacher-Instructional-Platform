@@ -4,12 +4,13 @@ import matplotlib
 import matplotlib.pyplot as plt
 from scipy.integrate import quad
 import streamlit as st
+import time
 
 # ----------------------
 # 頁面設定
 # ----------------------
 st.set_page_config(
-    page_title="微積分視覺實驗室｜黎曼和教學平台",
+    page_title="微積分視覺實驗室｜黎曼和四種方法互動視覺化學習平台",
     page_icon="📘",
     layout="wide"
 )
@@ -284,6 +285,11 @@ def compute_method_value(f, method, a, b, n, seed=None):
 if "random_seed" not in st.session_state:
     st.session_state.random_seed = int(np.random.randint(0, 10**9))
 
+if "autoplay_playing" not in st.session_state:
+    st.session_state.autoplay_playing = False
+if "autoplay_current_n" not in st.session_state:
+    st.session_state.autoplay_current_n = 6
+
 if "func_str" not in st.session_state:
     st.session_state.func_str = "x^2-3x+5"
 
@@ -292,7 +298,7 @@ if "func_str" not in st.session_state:
 # ----------------------
 st.markdown("""
 <div class="hero-box">
-    <div class="main-title">📘 微積分視覺實驗室：黎曼和教學平台</div>
+    <div class="main-title">📘 微積分視覺實驗室｜黎曼和四種方法互動視覺化學習平台</div>
     <div class="sub-title">
         透過圖形、數值與方法比較，觀察黎曼和如何近似曲線下方面積，建立定積分的直觀理解。
     </div>
@@ -425,7 +431,39 @@ with st.sidebar.expander("輸入語法說明"):
 st.sidebar.markdown("### 圖形顯示設定")
 view_mode = st.sidebar.radio("顯示模式", ["單一方法", "四種方法比較"])
 method = st.sidebar.selectbox("選擇方法", list(methods_dict.keys()))
-n = st.sidebar.slider("分割數 n", 1, 100, 6)
+manual_n = st.sidebar.slider("分割數 n", 1, 100, 6, key="manual_n")
+
+st.sidebar.markdown("### n 值自動播放")
+autoplay_col1, autoplay_col2 = st.sidebar.columns(2)
+with autoplay_col1:
+    autoplay_start = st.number_input("起點", min_value=1, max_value=100, value=1, step=1)
+with autoplay_col2:
+    autoplay_end = st.number_input("終點", min_value=1, max_value=100, value=30, step=1)
+
+autoplay_speed = st.sidebar.slider("播放速度（秒）", 0.1, 2.0, 0.5, 0.1)
+button_col1, button_col2 = st.sidebar.columns(2)
+with button_col1:
+    if st.button("自動播放", use_container_width=True):
+        start_n = int(min(autoplay_start, autoplay_end))
+        end_n = int(max(autoplay_start, autoplay_end))
+        st.session_state.autoplay_current_n = start_n
+        st.session_state.autoplay_playing = True
+with button_col2:
+    if st.button("停止播放", use_container_width=True):
+        st.session_state.autoplay_playing = False
+
+start_n = int(min(autoplay_start, autoplay_end))
+end_n = int(max(autoplay_start, autoplay_end))
+if st.session_state.autoplay_playing:
+    current_n = int(st.session_state.autoplay_current_n)
+    if current_n < start_n or current_n > end_n:
+        current_n = start_n
+        st.session_state.autoplay_current_n = start_n
+    n = current_n
+    st.sidebar.caption(f"目前自動播放 n = {n}")
+else:
+    n = manual_n
+    st.session_state.autoplay_current_n = n
 
 st.sidebar.markdown("### 區間範圍設定")
 interval_col1, interval_col2 = st.sidebar.columns(2)
@@ -466,6 +504,9 @@ except Exception:
 # 主區塊
 # ----------------------
 tab1, tab2, tab3 = st.tabs(["互動圖形", "誤差比較", "教學說明"])
+
+autoplay_should_continue = False
+next_autoplay_n = None
 
 with tab1:
     st.markdown("### ")
@@ -546,6 +587,18 @@ with tab1:
             hide_index=True
         )
 
+
+if st.session_state.autoplay_playing:
+    if n < end_n:
+        autoplay_should_continue = True
+        next_autoplay_n = n + 1
+    else:
+        st.session_state.autoplay_playing = False
+
+if autoplay_should_continue:
+    time.sleep(float(autoplay_speed))
+    st.session_state.autoplay_current_n = next_autoplay_n
+    st.rerun()
 
 with tab2:
     st.markdown("### 誤差分析與方法比較")
