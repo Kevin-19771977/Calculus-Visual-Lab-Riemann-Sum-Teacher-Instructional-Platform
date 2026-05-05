@@ -437,13 +437,13 @@ st.sidebar.markdown("### n 值自動播放")
 button_col1, button_col2 = st.sidebar.columns(2)
 with button_col1:
     if st.button("自動播放", use_container_width=True):
-        st.session_state.autoplay_current_n = 1
+        st.session_state.autoplay_current_n = manual_n
         st.session_state.autoplay_playing = True
 with button_col2:
     if st.button("停止播放", use_container_width=True):
         st.session_state.autoplay_playing = False
 
-start_n = 1
+start_n = manual_n
 end_n = 100
 autoplay_speed = 0.1
 
