@@ -291,7 +291,7 @@ if "autoplay_current_n" not in st.session_state:
     st.session_state.autoplay_current_n = 6
 
 if "func_str" not in st.session_state:
-    st.session_state.func_str = "x^2-3x+5"
+    st.session_state.func_str = "x^2"
 
 # ----------------------
 # 頁首區
