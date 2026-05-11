@@ -461,7 +461,7 @@ else:
 st.sidebar.markdown("### 區間範圍設定")
 interval_col1, interval_col2 = st.sidebar.columns(2)
 with interval_col1:
-    a = st.number_input("左 a", value=0.0)
+    a = st.number_input("左 a", value=1.0)
 with interval_col2:
     b = st.number_input("右 b", value=5.0)
 color_hex = st.sidebar.color_picker("選擇顏色", "#ff6b6b")
