@@ -496,7 +496,7 @@ except Exception:
 # ----------------------
 # 主區塊
 # ----------------------
-tab1, tab2, tab3 = st.tabs(["互動圖形", "誤差比較", "教學說明"])
+tab1, tab2, tab_riemann, tab_integral, tab3 = st.tabs(["互動圖形", "誤差比較", "黎曼和", "定積分", "教學說明"])
 
 with tab1:
     st.markdown("### ")
@@ -511,14 +511,14 @@ with tab1:
         with m1:
             st.markdown(f"""
             <div class="metric-card">
-                <div class="small-note">黎曼和近似值</div>
+                <div class="small-note">面積估計值／黎曼和</div>
                 <div style="font-size:1.5rem;font-weight:700;">{riemann_sum:.5f}</div>
             </div>
             """, unsafe_allow_html=True)
         with m2:
             st.markdown(f"""
             <div class="metric-card">
-                <div class="small-note">精確積分值</div>
+                <div class="small-note">曲線下的實際面積／定積分值</div>
                 <div style="font-size:1.5rem;font-weight:700;">{exact:.5f}</div>
             </div>
             """, unsafe_allow_html=True)
@@ -569,8 +569,8 @@ with tab1:
         st.dataframe(
             {
                 "方法": [r[0] for r in results],
-                "近似值": [round(r[1], 5) for r in results],
-                "精確值": [round(r[2], 5) for r in results],
+                "面積估計值／黎曼和": [round(r[1], 5) for r in results],
+                "曲線下的實際面積／定積分值": [round(r[2], 5) for r in results],
                 "誤差": [round(r[3], 5) for r in results],
             },
             use_container_width=True,
@@ -634,13 +634,21 @@ with tab2:
     st.dataframe(
         {
             "方法": method_names_cn,
-            "近似值": [round(v, 5) for v in approx_vals],
-            "精確值": [round(exact, 5)] * len(method_names_cn),
+            "面積估計值／黎曼和": [round(v, 5) for v in approx_vals],
+            "曲線下的實際面積／定積分值": [round(exact, 5)] * len(method_names_cn),
             "誤差": [round(e, 5) for e in errors]
         },
         use_container_width=True,
         hide_index=True
     )
+
+
+with tab_riemann:
+    st.image("11.png", use_container_width=True)
+    st.image("33.png", use_container_width=True)
+
+with tab_integral:
+    st.image("22.png", use_container_width=True)
 
 with tab3:
     st.markdown("### 教學說明")
