@@ -334,8 +334,8 @@ def draw_riemann_concept_figure():
     ax.text(a - 0.05, -0.22, r"$a$", fontsize=13)
     ax.text(b - 0.02, -0.22, r"$b$", fontsize=13)
 
-    ax.text(a + 0.10, -0.55, r"$\underbrace{\qquad}_{\Delta x}$", fontsize=15)
-    ax.text(b - dx + 0.02, -0.55, r"$\underbrace{\qquad}_{\Delta x}$", fontsize=15)
+    ax.text(a + 0.22, -0.46, "Δx", fontsize=15)
+    ax.text(b - dx + 0.16, -0.46, "Δx", fontsize=15)
 
     ax.set_xlim(0, 10)
     ax.set_ylim(-0.65, 4.7)
