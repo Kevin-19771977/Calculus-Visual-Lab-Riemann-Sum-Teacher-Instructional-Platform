@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from scipy.integrate import quad
 import streamlit as st
 import time
+from pathlib import Path
 
 # ----------------------
 # 頁面設定
@@ -14,6 +15,8 @@ st.set_page_config(
     page_icon="📘",
     layout="wide"
 )
+
+BASE_DIR = Path(__file__).resolve().parent
 
 # ----------------------
 # 圖表字型設定（英文，避免中文方塊）
@@ -337,8 +340,6 @@ def draw_riemann_concept_figure():
     ax.text(a + 0.22, -0.46, "Δx", fontsize=15)
     ax.text(b - dx + 0.16, -0.46, "Δx", fontsize=15)
 
-    ax.axhline(0, color="black", linewidth=1.0, zorder=0)
-
     ax.set_xlim(0, 10)
     ax.set_ylim(-0.65, 4.7)
     ax.spines["top"].set_visible(False)
@@ -382,8 +383,6 @@ def draw_definite_integral_concept_figure():
     ax.text(a - 0.05, -0.22, r"$a$", fontsize=13)
     ax.text(b - 0.02, -0.22, r"$b$", fontsize=13)
 
-    ax.axhline(0, color="black", linewidth=1.0, zorder=0)
-
     ax.set_xlim(0, 10)
     ax.set_ylim(-0.45, 4.8)
     ax.spines["top"].set_visible(False)
@@ -414,47 +413,15 @@ def get_symbol_table_html():
         font-weight: 700;
         font-size: 1.05rem;
     }
+    .meaning-table th:first-child {
+        text-align: center;
+    }
     .symbol-cell {
         width: 34%;
-        font-size: 1.2rem;
+        font-size: 1.55rem;
         font-weight: 600;
         white-space: nowrap;
-    }
-    .mapping-box {
-        background: #f8fafc;
-        border: 1px solid #e5e7eb;
-        border-radius: 14px;
-        padding: 0.9rem 1rem;
-        margin-top: 0.5rem;
-    }
-    .mapping-row {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-bottom: 12px;
-    }
-    .mapping-label {
-        min-width: 112px;
-        font-weight: 700;
-        font-size: 1.05rem;
-    }
-    .math-chip {
-        border-radius: 12px;
-        padding: 10px 14px;
-        font-size: 1.15rem;
-        font-weight: 600;
-        display: inline-block;
-        background: #ffffff;
-    }
-    .chip-pink { border: 2px solid #ec6cc5; }
-    .chip-green { border: 2px solid #4caf50; }
-    .chip-gold { border: 2px solid #f0b400; }
-    .arrow-down {
-        color: #ec6cc5;
-        font-size: 1.5rem;
-        line-height: 1;
-        margin: -2px 8px 0 8px;
+        text-align: center;
     }
     </style>
 
@@ -490,72 +457,60 @@ def get_integral_mapping_html():
     return """
     <style>
     .integral-map-wrap {
-        background: #f8fafc;
-        border: 1px solid #e5e7eb;
-        border-radius: 14px;
-        padding: 1rem 1rem 0.9rem 1rem;
-        margin-top: 0.5rem;
+        margin-top: 0.35rem;
     }
     .integral-map-table {
         width: 100%;
-        border-collapse: separate;
-        border-spacing: 10px 10px;
+        border-collapse: collapse;
+        border-spacing: 0;
     }
-    .integral-map-label {
-        width: 122px;
-        font-weight: 700;
-        font-size: 1.04rem;
-        white-space: nowrap;
-        vertical-align: middle;
-    }
-    .integral-map-chip {
+    .integral-map-table td {
+        border: none;
+        background: transparent;
         text-align: center;
         vertical-align: middle;
-    }
-    .integral-chip-box {
-        display: inline-block;
-        min-width: 88px;
-        padding: 10px 14px;
-        border-radius: 12px;
-        background: #ffffff;
-        font-size: 1.14rem;
+        padding: 8px 8px;
+        font-size: 1.42rem;
         font-weight: 600;
         line-height: 1.2;
     }
-    .chip-pink { border: 2px solid #ec6cc5; }
-    .chip-green { border: 2px solid #4caf50; }
-    .chip-gold { border: 2px solid #f0b400; }
+    .integral-map-label {
+        width: 150px;
+        text-align: left;
+        font-size: 1.15rem !important;
+        font-weight: 700 !important;
+        white-space: nowrap;
+    }
+    .integral-map-spacer {
+        width: 150px;
+    }
     .integral-arrow {
-        text-align: center;
-        font-size: 1.45rem;
-        line-height: 1;
+        font-size: 1.55rem;
+        font-weight: 700;
         padding-top: 0;
         padding-bottom: 0;
     }
-    .arrow-pink { color: #ec6cc5; }
-    .arrow-green { color: #4caf50; }
-    .arrow-gold { color: #f0b400; }
     </style>
 
     <div class="integral-map-wrap">
         <table class="integral-map-table">
             <tr>
                 <td class="integral-map-label">黎曼和的極限：</td>
-                <td class="integral-map-chip"><span class="integral-chip-box chip-pink">lim ∑</span></td>
-                <td class="integral-map-chip"><span class="integral-chip-box chip-green">f(t<sub>i</sub>)</span></td>
-                <td class="integral-map-chip"><span class="integral-chip-box chip-gold">Δx</span></td>
+                <td>lim ∑</td>
+                <td>f(t<sub>i</sub>)</td>
+                <td>Δx</td>
             </tr>
             <tr>
-                <td></td>
-                <td class="integral-arrow arrow-pink">↓</td>
-                <td class="integral-arrow arrow-green">↓</td>
-                <td class="integral-arrow arrow-gold">↓</td>
+                <td class="integral-map-spacer"></td>
+                <td class="integral-arrow">↓</td>
+                <td class="integral-arrow">↓</td>
+                <td class="integral-arrow">↓</td>
             </tr>
             <tr>
                 <td class="integral-map-label">定積分：</td>
-                <td class="integral-map-chip"><span class="integral-chip-box chip-pink">∫<sub>a</sub><sup>b</sup></span></td>
-                <td class="integral-map-chip"><span class="integral-chip-box chip-green">f(x)</span></td>
-                <td class="integral-map-chip"><span class="integral-chip-box chip-gold">dx</span></td>
+                <td>∫<sub>a</sub><sup>b</sup></td>
+                <td>f(x)</td>
+                <td>dx</td>
             </tr>
         </table>
     </div>
@@ -935,27 +890,22 @@ with tab_riemann:
     st.latex(r"= \left[f(t_1)+f(t_2)+\cdots+f(t_n)\right]\cdot \Delta x")
     st.latex(r"= \sum_{i=1}^{n} f(t_i)\cdot \Delta x")
 
-    fig_riemann = draw_riemann_concept_figure()
-    st.pyplot(fig_riemann, use_container_width=True)
+    st.image(str(BASE_DIR / "2.png"), use_container_width=True)
 
     st.markdown("### 符號與圖形意義對照表")
     st.markdown(get_symbol_table_html(), unsafe_allow_html=True)
 
 with tab_integral:
     st.markdown("### 定積分")
+
+    st.image(str(BASE_DIR / "1.png"), use_container_width=True)
+
     st.markdown("當 $n \\to \\infty$ 時，這無窮多個矩形的面積和就會逼近圖形下方的面積。")
     st.markdown("也就是說，黎曼和在分割越來越細時，會趨近於函數在區間 $[a,b]$ 內的定積分：")
-    st.latex(r"\lim_{n\to\infty}\sum_{i=1}^{n} f(t_i)\cdot \Delta x = \int_a^b f(x)\,dx")
+    st.markdown(r"$$\Large \lim_{n\to\infty}\sum_{i=1}^{n} f(t_i)\cdot \Delta x = \int_a^b f(x)\,dx$$")
 
-    col_left, col_right = st.columns([1.15, 1.2])
-
-    with col_left:
-        st.markdown("#### 黎曼和與定積分的對應")
-        st.markdown(get_integral_mapping_html(), unsafe_allow_html=True)
-
-    with col_right:
-        fig_integral = draw_definite_integral_concept_figure()
-        st.pyplot(fig_integral, use_container_width=True)
+    st.markdown("#### 黎曼和與定積分的對應")
+    st.markdown(get_integral_mapping_html(), unsafe_allow_html=True)
 
 with tab3:
     st.markdown("### 教學說明")
