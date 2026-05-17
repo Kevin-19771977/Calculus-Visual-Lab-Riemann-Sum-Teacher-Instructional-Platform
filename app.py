@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 from scipy.integrate import quad
 import streamlit as st
 import time
-from pathlib import Path
 
 # ----------------------
 # 頁面設定
@@ -15,8 +14,6 @@ st.set_page_config(
     page_icon="📘",
     layout="wide"
 )
-
-BASE_DIR = Path(__file__).resolve().parent
 
 # ----------------------
 # 圖表字型設定（英文，避免中文方塊）
@@ -281,244 +278,6 @@ def compute_method_value(f, method, a, b, n, seed=None):
 
     _, y_vals, dx = methods_dict[method](f, a, b, n)
     return np.sum(y_vals * dx)
-
-
-
-# ----------------------
-# 教學講義圖：黎曼和
-# ----------------------
-def draw_riemann_concept_figure():
-    fig, ax = plt.subplots(figsize=(9.6, 4.9))
-
-    curve = lambda x: -0.08 * (x - 6.0) ** 2 + 4.2
-    x = np.linspace(0, 10, 600)
-    y = curve(x)
-
-    a, b, n = 1.2, 8.6, 10
-    dx = (b - a) / n
-    left_edges = np.linspace(a, b, n, endpoint=False)
-    sample_offsets = np.array([0.22, 0.38, 0.55, 0.28, 0.63, 0.42, 0.75, 0.35, 0.58, 0.78])
-    t_vals = left_edges + sample_offsets * dx
-    heights = curve(t_vals)
-
-    ax.plot(x, y, color="#555555", linewidth=1.2)
-
-    for i, left in enumerate(left_edges):
-        ax.bar(
-            left,
-            heights[i],
-            width=dx,
-            align="edge",
-            color="#e8ddd4",
-            edgecolor="#c96e39",
-            linewidth=0.8,
-            alpha=0.72,
-        )
-        ax.axvline(
-            t_vals[i],
-            ymin=0,
-            ymax=min(1, heights[i] / 4.8),
-            color="#8ab17d",
-            linestyle="--",
-            linewidth=1.0,
-            alpha=0.8,
-        )
-
-    mark_idx = [0, 1, n - 1]
-    labels = [r"$t_1$", r"$t_2$", r"$t_n$"]
-    point_labels = [r"$(t_1,f(t_1))$", r"$(t_2,f(t_2))$", r"$(t_n,f(t_n))$"]
-    offsets = [(-0.58, 0.30), (-0.48, 0.25), (-0.20, 0.30)]
-    for idx, lab, plab, (dx_text, dy_text) in zip(mark_idx, labels, point_labels, offsets):
-        ax.plot(t_vals[idx], heights[idx], "o", color="red", markersize=5.5)
-        ax.text(t_vals[idx] - 0.08, -0.06, lab, fontsize=11)
-        ax.text(t_vals[idx] + dx_text, heights[idx] + dy_text, plab, fontsize=10.5)
-
-    ax.text(9.2, curve(8.95) + 0.10, r"$y=f(x)$", fontsize=16)
-    ax.text(a - 0.05, -0.22, r"$a$", fontsize=13)
-    ax.text(b - 0.02, -0.22, r"$b$", fontsize=13)
-
-    ax.text(a + 0.22, -0.46, "Δx", fontsize=15)
-    ax.text(b - dx + 0.16, -0.46, "Δx", fontsize=15)
-
-    ax.set_xlim(0, 10)
-    ax.set_ylim(-0.65, 4.7)
-    ax.spines["top"].set_visible(False)
-    ax.spines["right"].set_visible(False)
-    ax.tick_params(axis="both", labelsize=9)
-    ax.grid(False)
-
-    return fig
-
-# ----------------------
-# 教學講義圖：定積分
-# ----------------------
-def draw_definite_integral_concept_figure():
-    fig, ax = plt.subplots(figsize=(8.8, 4.8))
-
-    curve = lambda x: -0.08 * (x - 6.0) ** 2 + 4.2
-    x = np.linspace(0, 10, 700)
-    y = curve(x)
-
-    a, b, n = 1.3, 8.6, 44
-    dx = (b - a) / n
-    left_edges = np.linspace(a, b, n, endpoint=False)
-    midpoints = left_edges + dx / 2
-    heights = curve(midpoints)
-
-    ax.plot(x, y, color="#555555", linewidth=1.1)
-
-    for i, left in enumerate(left_edges):
-        ax.bar(
-            left,
-            heights[i],
-            width=dx,
-            align="edge",
-            color="#f4ece7",
-            edgecolor="#c96e39",
-            linewidth=0.75,
-            alpha=0.85,
-        )
-
-    ax.text(5.35, 4.55, r"$y=f(x)$", fontsize=16)
-    ax.text(a - 0.05, -0.22, r"$a$", fontsize=13)
-    ax.text(b - 0.02, -0.22, r"$b$", fontsize=13)
-
-    ax.set_xlim(0, 10)
-    ax.set_ylim(-0.45, 4.8)
-    ax.spines["top"].set_visible(False)
-    ax.spines["right"].set_visible(False)
-    ax.tick_params(axis="both", labelsize=9)
-    ax.grid(False)
-
-    return fig
-
-def get_symbol_table_html():
-    return """
-    <style>
-    .meaning-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 0.6rem;
-        margin-bottom: 0.8rem;
-        font-size: 1.02rem;
-    }
-    .meaning-table th, .meaning-table td {
-        border-bottom: 1px solid #e5e7eb;
-        padding: 14px 12px;
-        text-align: left;
-        vertical-align: middle;
-    }
-    .meaning-table th {
-        background: #f8fafc;
-        font-weight: 700;
-        font-size: 1.05rem;
-    }
-    .meaning-table th:first-child {
-        text-align: center;
-    }
-    .symbol-cell {
-        width: 34%;
-        font-size: 1.55rem;
-        font-weight: 600;
-        white-space: nowrap;
-        text-align: center;
-    }
-    .meaning-text-cell {
-        text-align: center;
-        font-size: 1.18rem;
-    }
-    </style>
-
-    <table class="meaning-table">
-        <thead>
-            <tr>
-                <th>符號</th>
-                <th>圖形意義</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="symbol-cell">Δx</td>
-                <td class="meaning-text-cell">每一個小區間的寬度</td>
-            </tr>
-            <tr>
-                <td class="symbol-cell"><i>f</i>(t<sub>i</sub>)</td>
-                <td class="meaning-text-cell">在某個取點位置上的函數高度，也就是小矩形的高度</td>
-            </tr>
-            <tr>
-                <td class="symbol-cell"><i>f</i>(t<sub>i</sub>)Δx</td>
-                <td class="meaning-text-cell">一個小矩形的面積</td>
-            </tr>
-            <tr>
-                <td class="symbol-cell">∑ <i>f</i>(t<sub>i</sub>)Δx</td>
-                <td class="meaning-text-cell">所有小矩形面積的加總，也就是黎曼和</td>
-            </tr>
-        </tbody>
-    </table>
-    """
-
-def get_integral_mapping_html():
-    return """
-    <style>
-    .integral-map-wrap {
-        margin-top: 1.35rem;
-    }
-    .integral-map-table {
-        width: 100%;
-        border-collapse: collapse;
-        border-spacing: 0;
-    }
-    .integral-map-table td {
-        border: none;
-        background: transparent;
-        text-align: center;
-        vertical-align: middle;
-        padding: 10px 10px;
-        font-size: 1.62rem;
-        font-weight: 600;
-        line-height: 1.25;
-    }
-    .integral-map-label {
-        width: 150px;
-        text-align: left;
-        font-size: 1.22rem !important;
-        font-weight: 700 !important;
-        white-space: nowrap;
-    }
-    .integral-map-spacer {
-        width: 150px;
-    }
-    .integral-arrow {
-        font-size: 1.78rem;
-        font-weight: 700;
-        padding-top: 0;
-        padding-bottom: 0;
-    }
-    </style>
-
-    <div class="integral-map-wrap">
-        <table class="integral-map-table">
-            <tr>
-                <td class="integral-map-label">黎曼和的極限：</td>
-                <td>lim ∑</td>
-                <td>f(t<sub>i</sub>)</td>
-                <td>Δx</td>
-            </tr>
-            <tr>
-                <td class="integral-map-spacer"></td>
-                <td class="integral-arrow">↓</td>
-                <td class="integral-arrow">↓</td>
-                <td class="integral-arrow">↓</td>
-            </tr>
-            <tr>
-                <td class="integral-map-label">定積分：</td>
-                <td>∫<sub>a</sub><sup>b</sup></td>
-                <td>f(x)</td>
-                <td>dx</td>
-            </tr>
-        </table>
-    </div>
-    """
 
 # ----------------------
 # session state
@@ -883,37 +642,13 @@ with tab2:
         hide_index=True
     )
 
+
 with tab_riemann:
-    st.markdown("### 黎曼和")
-    st.markdown("計算函數 $y=f(x)$ 在區間 $[a,b]$ 內圖形下方的面積的方法。")
-    st.markdown("首先把區間 $[a,b]$ 平分成 $n$ 個子區間，每個子區間的長度為：")
-    st.latex(r"\Delta x = \frac{b-a}{n}")
-    st.markdown("接著在每個子區間內各任選一點 $t_1,\\ t_2,\\ \\cdots,\\ t_n$。")
-    st.markdown("這些小矩形的面積和可以寫成：")
-    st.latex(r"f(t_1)\cdot \Delta x + f(t_2)\cdot \Delta x + \cdots + f(t_n)\cdot \Delta x")
-    st.latex(r"= \left[f(t_1)+f(t_2)+\cdots+f(t_n)\right]\cdot \Delta x")
-    st.latex(r"= \sum_{i=1}^{n} f(t_i)\cdot \Delta x")
-
-    img_left, img_center, img_right = st.columns([0.07, 0.86, 0.07])
-    with img_center:
-        st.image(str(BASE_DIR / "2.png"), use_container_width=True)
-
-    st.markdown("### 符號與圖形意義對照表")
-    st.markdown(get_symbol_table_html(), unsafe_allow_html=True)
+    st.image("11.png", use_container_width=True)
+    st.image("33.png", use_container_width=True)
 
 with tab_integral:
-    st.markdown("### 定積分")
-
-    int_left, int_center, int_right = st.columns([0.07, 0.86, 0.07])
-    with int_center:
-        st.image(str(BASE_DIR / "1.png"), use_container_width=True)
-
-    st.markdown("當 $n \\to \\infty$ 時，這無窮多個矩形的面積和就會逼近圖形下方的面積。")
-    st.markdown("也就是說，黎曼和在分割越來越細時，會趨近於函數在區間 $[a,b]$ 內的定積分：")
-    st.markdown(r"$$\Huge \lim_{n\to\infty}\sum_{i=1}^{n} f(t_i)\cdot \Delta x = \int_a^b f(x)\,dx$$")
-
-    st.markdown("#### 黎曼和與定積分的對應")
-    st.markdown(get_integral_mapping_html(), unsafe_allow_html=True)
+    st.image("22.png", use_container_width=True)
 
 with tab3:
     st.markdown("### 教學說明")
