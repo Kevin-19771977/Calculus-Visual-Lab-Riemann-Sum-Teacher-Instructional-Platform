@@ -337,6 +337,8 @@ def draw_riemann_concept_figure():
     ax.text(a + 0.22, -0.46, "Δx", fontsize=15)
     ax.text(b - dx + 0.16, -0.46, "Δx", fontsize=15)
 
+    ax.axhline(0, color="black", linewidth=1.0, zorder=0)
+
     ax.set_xlim(0, 10)
     ax.set_ylim(-0.65, 4.7)
     ax.spines["top"].set_visible(False)
@@ -379,6 +381,8 @@ def draw_definite_integral_concept_figure():
     ax.text(5.35, 4.55, r"$y=f(x)$", fontsize=16)
     ax.text(a - 0.05, -0.22, r"$a$", fontsize=13)
     ax.text(b - 0.02, -0.22, r"$b$", fontsize=13)
+
+    ax.axhline(0, color="black", linewidth=1.0, zorder=0)
 
     ax.set_xlim(0, 10)
     ax.set_ylim(-0.45, 4.8)
@@ -467,20 +471,16 @@ def get_symbol_table_html():
                 <td>每一個小區間的寬度</td>
             </tr>
             <tr>
-                <td class="symbol-cell"><i>f</i>(x<sub>i</sub><sup>*</sup>)</td>
+                <td class="symbol-cell"><i>f</i>(t<sub>i</sub>)</td>
                 <td>在某個取點位置上的函數高度，也就是小矩形的高度</td>
             </tr>
             <tr>
-                <td class="symbol-cell"><i>f</i>(x<sub>i</sub><sup>*</sup>)Δx</td>
+                <td class="symbol-cell"><i>f</i>(t<sub>i</sub>)Δx</td>
                 <td>一個小矩形的面積</td>
             </tr>
             <tr>
-                <td class="symbol-cell">∑ <i>f</i>(x<sub>i</sub><sup>*</sup>)Δx</td>
+                <td class="symbol-cell">∑ <i>f</i>(t<sub>i</sub>)Δx</td>
                 <td>所有小矩形面積的加總，也就是黎曼和</td>
-            </tr>
-            <tr>
-                <td class="symbol-cell">定積分</td>
-                <td>當分割越來越細時，黎曼和所接近的曲線下實際面積</td>
             </tr>
         </tbody>
     </table>
@@ -488,24 +488,76 @@ def get_symbol_table_html():
 
 def get_integral_mapping_html():
     return """
-    <div class="mapping-box">
-        <div class="mapping-row">
-            <div class="mapping-label">黎曼和的極限：</div>
-            <div class="math-chip chip-pink">lim ∑</div>
-            <div class="math-chip chip-green">f(t<sub>i</sub>)</div>
-            <div class="math-chip chip-gold">Δx</div>
-        </div>
-        <div class="mapping-row" style="margin-left:122px;">
-            <div class="arrow-down">↓</div>
-            <div class="arrow-down" style="color:#4caf50;">↓</div>
-            <div class="arrow-down" style="color:#f0b400;">↓</div>
-        </div>
-        <div class="mapping-row">
-            <div class="mapping-label">定積分：</div>
-            <div class="math-chip chip-pink">∫<sub>a</sub><sup>b</sup></div>
-            <div class="math-chip chip-green">f(x)</div>
-            <div class="math-chip chip-gold">dx</div>
-        </div>
+    <style>
+    .integral-map-wrap {
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 1rem 1rem 0.9rem 1rem;
+        margin-top: 0.5rem;
+    }
+    .integral-map-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 10px 10px;
+    }
+    .integral-map-label {
+        width: 122px;
+        font-weight: 700;
+        font-size: 1.04rem;
+        white-space: nowrap;
+        vertical-align: middle;
+    }
+    .integral-map-chip {
+        text-align: center;
+        vertical-align: middle;
+    }
+    .integral-chip-box {
+        display: inline-block;
+        min-width: 88px;
+        padding: 10px 14px;
+        border-radius: 12px;
+        background: #ffffff;
+        font-size: 1.14rem;
+        font-weight: 600;
+        line-height: 1.2;
+    }
+    .chip-pink { border: 2px solid #ec6cc5; }
+    .chip-green { border: 2px solid #4caf50; }
+    .chip-gold { border: 2px solid #f0b400; }
+    .integral-arrow {
+        text-align: center;
+        font-size: 1.45rem;
+        line-height: 1;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .arrow-pink { color: #ec6cc5; }
+    .arrow-green { color: #4caf50; }
+    .arrow-gold { color: #f0b400; }
+    </style>
+
+    <div class="integral-map-wrap">
+        <table class="integral-map-table">
+            <tr>
+                <td class="integral-map-label">黎曼和的極限：</td>
+                <td class="integral-map-chip"><span class="integral-chip-box chip-pink">lim ∑</span></td>
+                <td class="integral-map-chip"><span class="integral-chip-box chip-green">f(t<sub>i</sub>)</span></td>
+                <td class="integral-map-chip"><span class="integral-chip-box chip-gold">Δx</span></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="integral-arrow arrow-pink">↓</td>
+                <td class="integral-arrow arrow-green">↓</td>
+                <td class="integral-arrow arrow-gold">↓</td>
+            </tr>
+            <tr>
+                <td class="integral-map-label">定積分：</td>
+                <td class="integral-map-chip"><span class="integral-chip-box chip-pink">∫<sub>a</sub><sup>b</sup></span></td>
+                <td class="integral-map-chip"><span class="integral-chip-box chip-green">f(x)</span></td>
+                <td class="integral-map-chip"><span class="integral-chip-box chip-gold">dx</span></td>
+            </tr>
+        </table>
     </div>
     """
 
