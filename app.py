@@ -423,6 +423,10 @@ def get_symbol_table_html():
         white-space: nowrap;
         text-align: center;
     }
+    .meaning-text-cell {
+        text-align: center;
+        font-size: 1.18rem;
+    }
     </style>
 
     <table class="meaning-table">
@@ -435,19 +439,19 @@ def get_symbol_table_html():
         <tbody>
             <tr>
                 <td class="symbol-cell">Δx</td>
-                <td>每一個小區間的寬度</td>
+                <td class="meaning-text-cell">每一個小區間的寬度</td>
             </tr>
             <tr>
                 <td class="symbol-cell"><i>f</i>(t<sub>i</sub>)</td>
-                <td>在某個取點位置上的函數高度，也就是小矩形的高度</td>
+                <td class="meaning-text-cell">在某個取點位置上的函數高度，也就是小矩形的高度</td>
             </tr>
             <tr>
                 <td class="symbol-cell"><i>f</i>(t<sub>i</sub>)Δx</td>
-                <td>一個小矩形的面積</td>
+                <td class="meaning-text-cell">一個小矩形的面積</td>
             </tr>
             <tr>
                 <td class="symbol-cell">∑ <i>f</i>(t<sub>i</sub>)Δx</td>
-                <td>所有小矩形面積的加總，也就是黎曼和</td>
+                <td class="meaning-text-cell">所有小矩形面積的加總，也就是黎曼和</td>
             </tr>
         </tbody>
     </table>
@@ -457,7 +461,7 @@ def get_integral_mapping_html():
     return """
     <style>
     .integral-map-wrap {
-        margin-top: 0.35rem;
+        margin-top: 1.35rem;
     }
     .integral-map-table {
         width: 100%;
@@ -469,15 +473,15 @@ def get_integral_mapping_html():
         background: transparent;
         text-align: center;
         vertical-align: middle;
-        padding: 8px 8px;
-        font-size: 1.42rem;
+        padding: 10px 10px;
+        font-size: 1.62rem;
         font-weight: 600;
-        line-height: 1.2;
+        line-height: 1.25;
     }
     .integral-map-label {
         width: 150px;
         text-align: left;
-        font-size: 1.15rem !important;
+        font-size: 1.22rem !important;
         font-weight: 700 !important;
         white-space: nowrap;
     }
@@ -485,7 +489,7 @@ def get_integral_mapping_html():
         width: 150px;
     }
     .integral-arrow {
-        font-size: 1.55rem;
+        font-size: 1.78rem;
         font-weight: 700;
         padding-top: 0;
         padding-bottom: 0;
@@ -890,7 +894,9 @@ with tab_riemann:
     st.latex(r"= \left[f(t_1)+f(t_2)+\cdots+f(t_n)\right]\cdot \Delta x")
     st.latex(r"= \sum_{i=1}^{n} f(t_i)\cdot \Delta x")
 
-    st.image(str(BASE_DIR / "2.png"), use_container_width=True)
+    img_left, img_center, img_right = st.columns([0.07, 0.86, 0.07])
+    with img_center:
+        st.image(str(BASE_DIR / "2.png"), use_container_width=True)
 
     st.markdown("### 符號與圖形意義對照表")
     st.markdown(get_symbol_table_html(), unsafe_allow_html=True)
@@ -898,11 +904,13 @@ with tab_riemann:
 with tab_integral:
     st.markdown("### 定積分")
 
-    st.image(str(BASE_DIR / "1.png"), use_container_width=True)
+    int_left, int_center, int_right = st.columns([0.07, 0.86, 0.07])
+    with int_center:
+        st.image(str(BASE_DIR / "1.png"), use_container_width=True)
 
     st.markdown("當 $n \\to \\infty$ 時，這無窮多個矩形的面積和就會逼近圖形下方的面積。")
     st.markdown("也就是說，黎曼和在分割越來越細時，會趨近於函數在區間 $[a,b]$ 內的定積分：")
-    st.markdown(r"$$\Large \lim_{n\to\infty}\sum_{i=1}^{n} f(t_i)\cdot \Delta x = \int_a^b f(x)\,dx$$")
+    st.markdown(r"$$\Huge \lim_{n\to\infty}\sum_{i=1}^{n} f(t_i)\cdot \Delta x = \int_a^b f(x)\,dx$$")
 
     st.markdown("#### 黎曼和與定積分的對應")
     st.markdown(get_integral_mapping_html(), unsafe_allow_html=True)
